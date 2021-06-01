@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
  * @see Configuration
  * @see Plugin#getConfig()
  */
-public final class ConfigurationManager {
+public abstract class ConfigurationManager {
     @NotNull
     private final Plugin plugin;
     @NotNull
