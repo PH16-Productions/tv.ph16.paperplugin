@@ -2,6 +2,8 @@ package tv.ph16.paperplugin;
 
 import java.util.Optional;
 
+import javax.annotation.Generated;
+
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -17,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
  * @see Configuration
  * @see Plugin#getConfig()
  */
+@Generated(value = "T4", date = "2021-06-03T04:22:45")
 public abstract class ConfigurationManager {
     @NotNull
     private final Plugin plugin;
@@ -48,119 +51,25 @@ public abstract class ConfigurationManager {
     }
 
     /**
-     * Gets the requested int by path.
-     * @param path Path of the int to get.
-     * @return If configuration exists and is an int, the requested int; otherwise {@link Optional#empty()}.
+     * Sets or remove a path.
+     * @param <T> Type of configuration.
+     * @param path Path of the value to set or remove.
+     * @param value If {@link Optional#empty()}, removes configuration; otherwise is set.
      */
-    @NotNull
-    protected final Optional<Integer> getInt(@NotNull String path) {
-        if (config.contains(path, true) && config.isInt(path)) {
-            return Optional.of(config.getInt(path));
+    private final <T> void set(@NotNull String path, @NotNull Optional<T> value) {
+        if (value.isPresent()) {
+            config.set(path, value.get());
+        } else {
+            config.set(path, null);
         }
-        return Optional.empty();
     }
 
     /**
-     * Gets the requested int by path.
-     * @param path Path of the int to get.
-     * @param defaultValue The default value to return if the path is not found or is not an int.
-     * @return Requested int.
+     * Remove a path.
+     * @param path Path to remove.
      */
-    protected final int getInt(@NotNull String path, int defaultValue) {
-        return getInt(path).orElse(defaultValue);
-    }
-
-    /**
-     * Gets the requested String by path.
-     * @param path Path of the String to get.
-     * @return If configuration exists and is a String, the requested String; otherwise {@link Optional#empty()}.
-     */
-    @NotNull
-    protected final Optional<String> getString(@NotNull String path) {
-        if (config.contains(path, true) && config.isString(path)) {
-            return Optional.of(config.getString(path));
-        }
-        return Optional.empty();
-    }
-
-    /**
-     * Gets the requested String by path.
-     * @param path Path of the String to get.
-     * @param defaultValue The default value to return if the path is not found or is not a String.
-     * @return Requested String.
-     */
-    @NotNull
-    protected final String getString(@NotNull String path, @NotNull String defaultValue) {
-        return getString(path).orElse(defaultValue);
-    }
-
-    /**
-     * Gets the requested boolean by path.
-     * @param path Path of the boolean to get.
-     * @return If configuration exists and is a boolean, the requested boolean; otherwise {@link Optional#empty()}.
-     */
-    @NotNull
-    protected final Optional<Boolean> getBoolean(@NotNull String path) {
-        if (config.contains(path, true) && config.isBoolean(path)) {
-            return Optional.of(config.getBoolean(path));
-        }
-        return Optional.empty();
-    }
-
-    /**
-     * Gets the requested boolean by path.
-     * @param path Path of the boolean to get.
-     * @param defaultValue The default value to return if the path is not found or is not a boolean.
-     * @return Requested boolean.
-     */
-    protected final boolean getBoolean(@NotNull String path, boolean defaultValue) {
-        return getBoolean(path).orElse(defaultValue);
-    }
-
-    /**
-     * Gets the requested double by path.
-     * @param path Path of the double to get.
-     * @return If configuration exists and is a double, the requested double; otherwise {@link Optional#empty()}.
-     */
-    @NotNull
-    protected final Optional<Double> getDouble(@NotNull String path) {
-        if (config.contains(path, true) && config.isDouble(path)) {
-            return Optional.of(config.getDouble(path));
-        }
-        return Optional.empty();
-    }
-
-    /**
-     * Gets the requested double by path.
-     * @param path Path of the double to get.
-     * @param defaultValue The default value to return if the path is not found or is not a double.
-     * @return Requested double.
-     */
-    protected final double getDouble(@NotNull String path, double defaultValue) {
-        return getDouble(path).orElse(defaultValue);
-    }
-
-    /**
-     * Gets the requested long by path.
-     * @param path Path of the long to get.
-     * @return If configuration exists and is a long, the requested long; otherwise {@link Optional#empty()}.
-     */
-    @NotNull
-    protected final Optional<Long> getLong(@NotNull String path) {
-        if (config.contains(path) && config.isLong(path)) {
-            return Optional.of(config.getLong(path));
-        }
-        return Optional.empty();
-    }
-
-    /**
-     * Gets the requested long by path.
-     * @param path Path of the long to get.
-     * @param defaultValue The default value to return if the path is not found or is not a long.
-     * @return Requested long.
-     */
-    protected final long getLong(@NotNull String path, long defaultValue) {
-        return getLong(path).orElse(defaultValue);
+    protected final void remove(@NotNull String path) {
+        set(path, Optional.empty());
     }
 
     /**
@@ -189,43 +98,95 @@ public abstract class ConfigurationManager {
     }
 
     /**
-     * Sets or remove a path.
-     * @param <T> Type of configuration.
-     * @param path Path of the value to set or remove.
-     * @param value If {@link Optional#empty()}, removes configuration; otherwise is set.
+     * Sets an object by path.
+     * @param path Path of the object to set.
+     * @param value {@link Optional#empty()} to remove or the Object to set.
      */
-    private final <T> void set(@NotNull String path, @NotNull Optional<T> value) {
-        if (value.isPresent()) {
-            config.set(path, value.get());
-        } else {
-            config.set(path, null);
+    protected final <T extends ConfigurationSerializable> void setObject(@NotNull String path, @NotNull Optional<T> value) {
+        set(path, value);
+    }
+
+    /**
+     * Sets an object by path.
+     * @param path Path of the object to set.
+     * @param value The Object to set.
+     */
+    protected final <T extends ConfigurationSerializable> void setObject(@NotNull String path, @NotNull T value) {
+        set(path, Optional.of(value));
+    }
+
+        /**
+     * Gets the requested int by path.
+     * @param path Path of the int to get.
+     * @return If configuration exists and is a int, the requested int; otherwise {@link Optional#empty()}.
+     */
+    @NotNull
+    protected final Optional<Integer> getInt(@NotNull String path) {
+        if (config.contains(path, true) && config.isInt(path)) {
+            return Optional.of(config.getInt(path));
         }
+        return Optional.empty();
     }
 
     /**
-     * Remove a path.
-     * @param path Path to remove.
+     * Gets the requested int by path.
+     * @param path Path of the int to get.
+     * @param defaultValue The default value to return if the path is not found or is not a int.
+     * @return Requested int.
      */
-    protected final void remove(@NotNull String path) {
-        set(path, Optional.empty());
+    @NotNull
+    protected final int getInt(@NotNull String path, int defaultValue) {
+        return getInt(path).orElse(defaultValue);
     }
 
     /**
-     * Sets an int by path.
+     * Sets a int by path.
+     * @param path Path of the int to set.
+     * @param value The int to set.
+     */
+    protected final void setInt(@NotNull String path, int value) {
+        set(path, Optional.of(value));
+    }
+
+    /**
+     * Sets a int by path.
      * @param path Path of the int to set.
      * @param value {@link Optional#empty()} to remove or the int to set.
      */
     protected final void setInt(@NotNull String path, @NotNull Optional<Integer> value) {
         set(path, value);
     }
+        /**
+     * Gets the requested boolean by path.
+     * @param path Path of the boolean to get.
+     * @return If configuration exists and is a boolean, the requested boolean; otherwise {@link Optional#empty()}.
+     */
+    @NotNull
+    protected final Optional<Boolean> getBoolean(@NotNull String path) {
+        if (config.contains(path, true) && config.isBoolean(path)) {
+            return Optional.of(config.getBoolean(path));
+        }
+        return Optional.empty();
+    }
 
     /**
-     * Sets a String by path.
-     * @param path Path of the String to set.
-     * @param value {@link Optional#empty()} to remove or the String to set.
+     * Gets the requested boolean by path.
+     * @param path Path of the boolean to get.
+     * @param defaultValue The default value to return if the path is not found or is not a boolean.
+     * @return Requested boolean.
      */
-    protected final void setString(@NotNull String path, @NotNull Optional<String> value) {
-        set(path, value);
+    @NotNull
+    protected final boolean getBoolean(@NotNull String path, boolean defaultValue) {
+        return getBoolean(path).orElse(defaultValue);
+    }
+
+    /**
+     * Sets a boolean by path.
+     * @param path Path of the boolean to set.
+     * @param value The boolean to set.
+     */
+    protected final void setBoolean(@NotNull String path, boolean value) {
+        set(path, Optional.of(value));
     }
 
     /**
@@ -236,13 +197,128 @@ public abstract class ConfigurationManager {
     protected final void setBoolean(@NotNull String path, @NotNull Optional<Boolean> value) {
         set(path, value);
     }
+        /**
+     * Gets the requested double by path.
+     * @param path Path of the double to get.
+     * @return If configuration exists and is a double, the requested double; otherwise {@link Optional#empty()}.
+     */
+    @NotNull
+    protected final Optional<Double> getDouble(@NotNull String path) {
+        if (config.contains(path, true) && config.isDouble(path)) {
+            return Optional.of(config.getDouble(path));
+        }
+        return Optional.empty();
+    }
 
     /**
-     * Sets an object by path.
-     * @param path Path of the object to set.
-     * @param value {@link Optional#empty()} to remove or the Object to set.
+     * Gets the requested double by path.
+     * @param path Path of the double to get.
+     * @param defaultValue The default value to return if the path is not found or is not a double.
+     * @return Requested double.
      */
-    protected final <T extends ConfigurationSerializable> void setObject(@NotNull String path, @NotNull Optional<T> value) {
+    @NotNull
+    protected final double getDouble(@NotNull String path, double defaultValue) {
+        return getDouble(path).orElse(defaultValue);
+    }
+
+    /**
+     * Sets a double by path.
+     * @param path Path of the double to set.
+     * @param value The double to set.
+     */
+    protected final void setDouble(@NotNull String path, double value) {
+        set(path, Optional.of(value));
+    }
+
+    /**
+     * Sets a double by path.
+     * @param path Path of the double to set.
+     * @param value {@link Optional#empty()} to remove or the double to set.
+     */
+    protected final void setDouble(@NotNull String path, @NotNull Optional<Double> value) {
         set(path, value);
     }
+        /**
+     * Gets the requested String by path.
+     * @param path Path of the String to get.
+     * @return If configuration exists and is a String, the requested String; otherwise {@link Optional#empty()}.
+     */
+    @NotNull
+    protected final Optional<String> getString(@NotNull String path) {
+        if (config.contains(path, true) && config.isString(path)) {
+            return Optional.of(config.getString(path));
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Gets the requested String by path.
+     * @param path Path of the String to get.
+     * @param defaultValue The default value to return if the path is not found or is not a String.
+     * @return Requested String.
+     */
+    @NotNull
+    protected final String getString(@NotNull String path, String defaultValue) {
+        return getString(path).orElse(defaultValue);
+    }
+
+    /**
+     * Sets a String by path.
+     * @param path Path of the String to set.
+     * @param value The String to set.
+     */
+    protected final void setString(@NotNull String path, String value) {
+        set(path, Optional.of(value));
+    }
+
+    /**
+     * Sets a String by path.
+     * @param path Path of the String to set.
+     * @param value {@link Optional#empty()} to remove or the String to set.
+     */
+    protected final void setString(@NotNull String path, @NotNull Optional<String> value) {
+        set(path, value);
+    }
+        /**
+     * Gets the requested long by path.
+     * @param path Path of the long to get.
+     * @return If configuration exists and is a long, the requested long; otherwise {@link Optional#empty()}.
+     */
+    @NotNull
+    protected final Optional<Long> getLong(@NotNull String path) {
+        if (config.contains(path, true) && config.isLong(path)) {
+            return Optional.of(config.getLong(path));
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Gets the requested long by path.
+     * @param path Path of the long to get.
+     * @param defaultValue The default value to return if the path is not found or is not a long.
+     * @return Requested long.
+     */
+    @NotNull
+    protected final long getLong(@NotNull String path, long defaultValue) {
+        return getLong(path).orElse(defaultValue);
+    }
+
+    /**
+     * Sets a long by path.
+     * @param path Path of the long to set.
+     * @param value The long to set.
+     */
+    protected final void setLong(@NotNull String path, long value) {
+        set(path, Optional.of(value));
+    }
+
+    /**
+     * Sets a long by path.
+     * @param path Path of the long to set.
+     * @param value {@link Optional#empty()} to remove or the long to set.
+     */
+    protected final void setLong(@NotNull String path, @NotNull Optional<Long> value) {
+        set(path, value);
+    }
+
 }

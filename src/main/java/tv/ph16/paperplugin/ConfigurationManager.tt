@@ -1,0 +1,178 @@
+<#@ template language="C#" #>
+<#@ output extension=".java" encoding="utf-8" #>
+<#@ import namespace="System" #>
+package tv.ph16.paperplugin;
+
+import java.util.Optional;
+
+import javax.annotation.Generated;
+
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * Provides wrapper for configuration.
+ * <p>
+ * Primary gain is by returning {@link Optional}.
+ *
+ * @author Shmueli Englard
+ * @see Configuration
+ * @see Plugin#getConfig()
+ */
+@Generated(value = "T4", date = "<#=DateTimeOffset.UtcNow.ToString("s")#>")
+public abstract class ConfigurationManager {
+    @NotNull
+    private final Plugin plugin;
+    @NotNull
+    private Configuration config;
+
+    /**
+     * Create a new instance of the {@link ConfigurationMananger} class.
+     * @param plugin The plugin to manage configuration for.
+     */
+    protected ConfigurationManager(@NotNull Plugin plugin) {
+        this.plugin = plugin;
+        config = plugin.getConfig();
+    }
+
+    /**
+     * Save the configuration.
+     */
+    public final void save() {
+        plugin.saveConfig();
+    }
+
+    /**
+     * Reload configuration.
+     */
+    public final void reload() {
+        plugin.reloadConfig();
+        config = plugin.getConfig();
+    }
+
+    /**
+     * Sets or remove a path.
+     * @param <T> Type of configuration.
+     * @param path Path of the value to set or remove.
+     * @param value If {@link Optional#empty()}, removes configuration; otherwise is set.
+     */
+    private final <T> void set(@NotNull String path, @NotNull Optional<T> value) {
+        if (value.isPresent()) {
+            config.set(path, value.get());
+        } else {
+            config.set(path, null);
+        }
+    }
+
+    /**
+     * Remove a path.
+     * @param path Path to remove.
+     */
+    protected final void remove(@NotNull String path) {
+        set(path, Optional.empty());
+    }
+
+    /**
+     * Gets the requested object by path.
+     * @param path Path of the object to get.
+     * @return If configuration exists and is an object, the requested object; otherwise {@link Optional#empty()}.
+     */
+    @NotNull
+    protected final <T extends ConfigurationSerializable> Optional<T> getObject(@NotNull String path, @NotNull Class<T> clazz) {
+        ConfigurationSerialization.registerClass(clazz);
+        if (config.contains(path, true)) {
+            return Optional.ofNullable(config.getObject(path, clazz, null));
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Gets the requested object by path.
+     * @param path Path of the object to get.
+     * @param defaultValue The default value to return if the path is not found or is not an object.
+     * @return Requested object.
+     */
+    @NotNull
+    protected final <T extends ConfigurationSerializable> T getObject(@NotNull String path, @NotNull Class<T> clazz, @NotNull T defaultValue) {
+        return getObject(path, clazz).orElse(defaultValue);
+    }
+
+    /**
+     * Sets an object by path.
+     * @param path Path of the object to set.
+     * @param value {@link Optional#empty()} to remove or the Object to set.
+     */
+    protected final <T extends ConfigurationSerializable> void setObject(@NotNull String path, @NotNull Optional<T> value) {
+        set(path, value);
+    }
+
+    /**
+     * Sets an object by path.
+     * @param path Path of the object to set.
+     * @param value The Object to set.
+     */
+    protected final <T extends ConfigurationSerializable> void setObject(@NotNull String path, @NotNull T value) {
+        set(path, Optional.of(value));
+    }
+
+    <#
+        (string className, string typeName, string methodName)[] types = {
+            ("Integer","int","Int"),
+            ("Boolean","boolean","Boolean"),
+            ("Double","double","Double"),
+            ("String","String","String"),
+            ("Long","long","Long")
+        };
+
+        foreach((string className, string typeName, string methodName) in types)
+        {
+    #>
+    /**
+     * Gets the requested <#=typeName#> by path.
+     * @param path Path of the <#=typeName#> to get.
+     * @return If configuration exists and is a <#=typeName#>, the requested <#=typeName#>; otherwise {@link Optional#empty()}.
+     */
+    @NotNull
+    protected final Optional<<#=className#>> get<#=methodName#>(@NotNull String path) {
+        if (config.contains(path, true) && config.is<#=methodName#>(path)) {
+            return Optional.of(config.get<#=methodName#>(path));
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Gets the requested <#=typeName#> by path.
+     * @param path Path of the <#=typeName#> to get.
+     * @param defaultValue The default value to return if the path is not found or is not a <#=typeName#>.
+     * @return Requested <#=typeName#>.
+     */
+    @NotNull
+    protected final <#=typeName#> get<#=methodName#>(@NotNull String path, <#=typeName#> defaultValue) {
+        return get<#=methodName#>(path).orElse(defaultValue);
+    }
+
+    /**
+     * Sets a <#=typeName#> by path.
+     * @param path Path of the <#=typeName#> to set.
+     * @param value The <#=typeName#> to set.
+     */
+    protected final void set<#=methodName#>(@NotNull String path, <#=typeName#> value) {
+        set(path, Optional.of(value));
+    }
+
+    /**
+     * Sets a <#=typeName#> by path.
+     * @param path Path of the <#=typeName#> to set.
+     * @param value {@link Optional#empty()} to remove or the <#=typeName#> to set.
+     */
+    protected final void set<#=methodName#>(@NotNull String path, @NotNull Optional<<#=className#>> value) {
+        set(path, value);
+    }
+    <#
+        }
+    #>
+
+}
