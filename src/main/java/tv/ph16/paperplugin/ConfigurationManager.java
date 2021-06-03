@@ -27,7 +27,7 @@ public abstract class ConfigurationManager {
      * Create a new instance of the {@link ConfigurationMananger} class.
      * @param plugin The plugin to manage configuration for.
      */
-    public ConfigurationManager(@NotNull Plugin plugin) {
+    protected ConfigurationManager(@NotNull Plugin plugin) {
         this.plugin = plugin;
         config = plugin.getConfig();
     }
