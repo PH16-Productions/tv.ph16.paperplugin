@@ -10,6 +10,12 @@ import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
+
 /**
  * Provides wrapper for configuration.
  * <p>
@@ -19,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
  * @see Configuration
  * @see Plugin#getConfig()
  */
-@Generated(value = "T4", date = "2021-06-03T04:22:45")
+@Generated(value = "T4", date = "2021-06-03T04:33:41")
 public abstract class ConfigurationManager {
     @NotNull
     private final Plugin plugin;
@@ -320,5 +326,210 @@ public abstract class ConfigurationManager {
     protected final void setLong(@NotNull String path, @NotNull Optional<Long> value) {
         set(path, value);
     }
+        /**
+     * Gets the requested Color by path.
+     * @param path Path of the Color to get.
+     * @return If configuration exists and is a Color, the requested Color; otherwise {@link Optional#empty()}.
+     */
+    @NotNull
+    protected final Optional<Color> getColor(@NotNull String path) {
+        if (config.contains(path, true) && config.isColor(path)) {
+            return Optional.of(config.getColor(path));
+        }
+        return Optional.empty();
+    }
 
+    /**
+     * Gets the requested Color by path.
+     * @param path Path of the Color to get.
+     * @param defaultValue The default value to return if the path is not found or is not a Color.
+     * @return Requested Color.
+     */
+    @NotNull
+    protected final Color getColor(@NotNull String path, Color defaultValue) {
+        return getColor(path).orElse(defaultValue);
+    }
+
+    /**
+     * Sets a Color by path.
+     * @param path Path of the Color to set.
+     * @param value The Color to set.
+     */
+    protected final void setColor(@NotNull String path, Color value) {
+        set(path, Optional.of(value));
+    }
+
+    /**
+     * Sets a Color by path.
+     * @param path Path of the Color to set.
+     * @param value {@link Optional#empty()} to remove or the Color to set.
+     */
+    protected final void setColor(@NotNull String path, @NotNull Optional<Color> value) {
+        set(path, value);
+    }
+        /**
+     * Gets the requested Location by path.
+     * @param path Path of the Location to get.
+     * @return If configuration exists and is a Location, the requested Location; otherwise {@link Optional#empty()}.
+     */
+    @NotNull
+    protected final Optional<Location> getLocation(@NotNull String path) {
+        if (config.contains(path, true) && config.isLocation(path)) {
+            return Optional.of(config.getLocation(path));
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Gets the requested Location by path.
+     * @param path Path of the Location to get.
+     * @param defaultValue The default value to return if the path is not found or is not a Location.
+     * @return Requested Location.
+     */
+    @NotNull
+    protected final Location getLocation(@NotNull String path, Location defaultValue) {
+        return getLocation(path).orElse(defaultValue);
+    }
+
+    /**
+     * Sets a Location by path.
+     * @param path Path of the Location to set.
+     * @param value The Location to set.
+     */
+    protected final void setLocation(@NotNull String path, Location value) {
+        set(path, Optional.of(value));
+    }
+
+    /**
+     * Sets a Location by path.
+     * @param path Path of the Location to set.
+     * @param value {@link Optional#empty()} to remove or the Location to set.
+     */
+    protected final void setLocation(@NotNull String path, @NotNull Optional<Location> value) {
+        set(path, value);
+    }
+        /**
+     * Gets the requested OfflinePlayer by path.
+     * @param path Path of the OfflinePlayer to get.
+     * @return If configuration exists and is a OfflinePlayer, the requested OfflinePlayer; otherwise {@link Optional#empty()}.
+     */
+    @NotNull
+    protected final Optional<OfflinePlayer> getOfflinePlayer(@NotNull String path) {
+        if (config.contains(path, true) && config.isOfflinePlayer(path)) {
+            return Optional.of(config.getOfflinePlayer(path));
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Gets the requested OfflinePlayer by path.
+     * @param path Path of the OfflinePlayer to get.
+     * @param defaultValue The default value to return if the path is not found or is not a OfflinePlayer.
+     * @return Requested OfflinePlayer.
+     */
+    @NotNull
+    protected final OfflinePlayer getOfflinePlayer(@NotNull String path, OfflinePlayer defaultValue) {
+        return getOfflinePlayer(path).orElse(defaultValue);
+    }
+
+    /**
+     * Sets a OfflinePlayer by path.
+     * @param path Path of the OfflinePlayer to set.
+     * @param value The OfflinePlayer to set.
+     */
+    protected final void setOfflinePlayer(@NotNull String path, OfflinePlayer value) {
+        set(path, Optional.of(value));
+    }
+
+    /**
+     * Sets a OfflinePlayer by path.
+     * @param path Path of the OfflinePlayer to set.
+     * @param value {@link Optional#empty()} to remove or the OfflinePlayer to set.
+     */
+    protected final void setOfflinePlayer(@NotNull String path, @NotNull Optional<OfflinePlayer> value) {
+        set(path, value);
+    }
+        /**
+     * Gets the requested ItemStack by path.
+     * @param path Path of the ItemStack to get.
+     * @return If configuration exists and is a ItemStack, the requested ItemStack; otherwise {@link Optional#empty()}.
+     */
+    @NotNull
+    protected final Optional<ItemStack> getItemStack(@NotNull String path) {
+        if (config.contains(path, true) && config.isItemStack(path)) {
+            return Optional.of(config.getItemStack(path));
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Gets the requested ItemStack by path.
+     * @param path Path of the ItemStack to get.
+     * @param defaultValue The default value to return if the path is not found or is not a ItemStack.
+     * @return Requested ItemStack.
+     */
+    @NotNull
+    protected final ItemStack getItemStack(@NotNull String path, ItemStack defaultValue) {
+        return getItemStack(path).orElse(defaultValue);
+    }
+
+    /**
+     * Sets a ItemStack by path.
+     * @param path Path of the ItemStack to set.
+     * @param value The ItemStack to set.
+     */
+    protected final void setItemStack(@NotNull String path, ItemStack value) {
+        set(path, Optional.of(value));
+    }
+
+    /**
+     * Sets a ItemStack by path.
+     * @param path Path of the ItemStack to set.
+     * @param value {@link Optional#empty()} to remove or the ItemStack to set.
+     */
+    protected final void setItemStack(@NotNull String path, @NotNull Optional<ItemStack> value) {
+        set(path, value);
+    }
+        /**
+     * Gets the requested Vector by path.
+     * @param path Path of the Vector to get.
+     * @return If configuration exists and is a Vector, the requested Vector; otherwise {@link Optional#empty()}.
+     */
+    @NotNull
+    protected final Optional<Vector> getVector(@NotNull String path) {
+        if (config.contains(path, true) && config.isVector(path)) {
+            return Optional.of(config.getVector(path));
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Gets the requested Vector by path.
+     * @param path Path of the Vector to get.
+     * @param defaultValue The default value to return if the path is not found or is not a Vector.
+     * @return Requested Vector.
+     */
+    @NotNull
+    protected final Vector getVector(@NotNull String path, Vector defaultValue) {
+        return getVector(path).orElse(defaultValue);
+    }
+
+    /**
+     * Sets a Vector by path.
+     * @param path Path of the Vector to set.
+     * @param value The Vector to set.
+     */
+    protected final void setVector(@NotNull String path, Vector value) {
+        set(path, Optional.of(value));
+    }
+
+    /**
+     * Sets a Vector by path.
+     * @param path Path of the Vector to set.
+     * @param value {@link Optional#empty()} to remove or the Vector to set.
+     */
+    protected final void setVector(@NotNull String path, @NotNull Optional<Vector> value) {
+        set(path, value);
+    }
+    
 }

@@ -12,6 +12,10 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Added Changelog
 
+### Changed
+
+- Added more types to `ConfigurationManager`.
+
 ## [1.0.1] - 2021-06-01
 
 ### Fixed

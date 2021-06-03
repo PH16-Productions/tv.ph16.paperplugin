@@ -13,6 +13,12 @@ import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
+
 /**
  * Provides wrapper for configuration.
  * <p>
@@ -124,7 +130,12 @@ public abstract class ConfigurationManager {
             ("Boolean","boolean","Boolean"),
             ("Double","double","Double"),
             ("String","String","String"),
-            ("Long","long","Long")
+            ("Long","long","Long"),
+            ("Color","Color","Color"),
+            ("Location","Location","Location"),
+            ("OfflinePlayer","OfflinePlayer","OfflinePlayer"),
+            ("ItemStack","ItemStack","ItemStack"),
+            ("Vector","Vector","Vector")
         };
 
         foreach((string className, string typeName, string methodName) in types)
